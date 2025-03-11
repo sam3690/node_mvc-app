@@ -19,7 +19,7 @@ const screeningController = {
     async showDashboard(req, res) {
         try {
             const screenings = await CScreening.getTop10();
-            res.render('index', { screenings }); // Render the EJS view with data
+            res.render('index', { screenings }); 
         } catch (error) {
             res.status(500).send('Error fetching data');
         }

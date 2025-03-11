@@ -3,41 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <Link rel="stylesheet" href="/style.css"></Link>
     <title>Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
 </head>
 <body>
     <h1>Top 10 Child Screenings</h1>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>CS06</th>
-                <th>CS12</th>
-                <th>CS1502</th>
-                <th>UC</th>
-                <th>Village</th>
+                <!-- <% for (const obj of screenings){%> -->
+                    
+                        <!-- <th><%= obj%></th> -->
+                    <!-- <th>ID</th>
+                    <th>CS06</th>
+                    <th>CS12</th>
+                    <th>CS1502</th>
+                    <th>UC</th>
+                    <th>Village</th> -->
+                    
+                <!-- <%}%> -->
+                <% if (screenings.length > 0) { %>
+                    <% for (const key in screenings[0]) { %>
+                        <th><%= key %></th>
+                    <% } %>
+                <% } %>
             </tr>
         </thead>
         <tbody>
-            <% screenings.forEach(screening => { %>
+            <!-- <% screenings.forEach(screening => { %>
                 <tr>
                     <td><%= screening.col_id %></td>
                     <td><%= screening.cs06 %></td>
@@ -46,7 +39,16 @@
                     <td><%= screening.uc %></td>
                     <td><%= screening.village %></td>
                 </tr>
-            <% }) %>
+            <% }) %> -->
+            <% for (const obj of screenings) { %>
+           
+                <tr>
+                    <%for(const key in obj){%>
+                        <td><%= obj[key]%></td>
+                    <%}%>
+                </tr>
+            <% } %>
+            
         </tbody>
     </table>
 </body>
