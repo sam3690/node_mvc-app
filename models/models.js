@@ -7,4 +7,11 @@ class CScreening {
     }
 }
 
-module.exports = CScreening;
+class ChildFollowUp {
+    static async getData() {
+        const query = `SELECT TOP 10 col_id,district, endingdatetime, fc08, fc15, fc16 FROM [dbo].[CFollowup]`;
+        return await executeQuery(query);
+    }
+}
+
+module.exports = {CScreening, ChildFollowUp};
