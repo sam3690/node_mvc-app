@@ -6,20 +6,12 @@ const controller = {
         try {
             const cFollowUp = await models.ChildFollowUp.getData();
             const screenings = await models.CScreening.getTop10();
-            res.render('index', {cFollowUp,screenings}); // Pass data and type
+            const CDateByY = await models.CDateByYear.getData();
+            res.render('index', {cFollowUp,screenings, CDateByY}); // Pass data and type
         } catch (error) {
             res.status(500).send('Error fetching data');
         }
     },
-
-    // async showDash(req, res) {
-    //     try {
-    //         const cFollowUp = await ChildFollowUp.getData();
-    //         res.render('index', { data: cFollowUp, type: 'cFollowUp' }); // Pass data and type
-    //     } catch (error) {
-    //         res.status(500).send('Error fetching data');
-    //     }
-    // }
 };
 
 module.exports = controller;

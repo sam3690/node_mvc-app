@@ -10,10 +10,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "chart.js": "^4.4.8",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-ejs-layouts": "^2.5.1",
+    "jalaali-js": "^1.2.8",
+    "moment-jalaali": "^0.10.4",
     "mssql": "^11.0.1"
   },
   "devDependencies": {

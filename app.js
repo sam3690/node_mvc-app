@@ -3,6 +3,7 @@ const path = require('path');
 const { connect } = require('./config/db');
 const screeningRoutes = require('./routes/route');
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

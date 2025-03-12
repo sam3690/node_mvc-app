@@ -19,3 +19,10 @@ th, td {
 th {
     background-color: #f4f4f4;
 }
+.heading{
+    font-family: var(--font-family);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}

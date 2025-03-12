@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
     <style>
         body {
@@ -26,6 +27,72 @@
             margin-top: 30px;
         }
     </style>
+    <!-- Chart.js script -->
+    <script>
+        // Create chart only if we have age distribution data
+         if (typeof ageDistribution !== 'undefined') { 
+            const ctx = document.getElementById('childAgeChart').getContext('2d');
+            const childAgeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-1 year', '1-2 years', '2-3 years', '3-4 years', '4-5 years'],
+                    datasets: [{
+                        label: 'Children by Age Group',
+                        data: JSON.stringify(ageDistribution) ,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Children'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Age Groups'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Children Under 5 Years by Age Group',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+         } else { 
+            // If we don't have age distribution data
+            document.getElementById('childAgeChart').innerHTML = 'No age distribution data available.';
+        }
+    </script>
 </head>
 <body>
     <h1>Dashboard</h1>
@@ -83,5 +150,8 @@
     <% } else { %>
         <p>No child follow-up data available.</p>
     <% } %>
+    <h1 class="heading">Total children under age 5 </h1>
+    <h1><%= CDateByY%></h1>
+    
 </body>
 </html>
