@@ -7,9 +7,7 @@ const controller = {
             const cFollowUp = await models.ChildFollowUp.getData();
             const screenings = await models.CScreening.getTop10();
             const CDateByY = await models.CDateByYear.getData();
-            const CDistricts = await models.CDistricts.getData();
-            console.log(CDistricts);
-            
+            const CDistricts = await models.CDistricts.getData();          
             
             res.render('index', {
                 cFollowUp: cFollowUp,

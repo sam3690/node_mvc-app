@@ -78,9 +78,9 @@ class CDateByYear{
 
 class CDistricts {
     static async getData(){
-        const query = "SELECT district FROM [dbo].[CScreening] where colflag is null";
+        const query = "SELECT cs08, district FROM [dbo].[CScreening] where colflag is null";
         const data = await executeQuery(query)              
-        const Dlength = data.length
+        // const Dlength = data.length
         // Initialize an empty object to store the counts
         const districtCounts = {};
 
@@ -103,11 +103,6 @@ class CDistricts {
               count: districtCounts[district]
             };
           });
-
-        // Now districtCounts will look something like this:
-        // { 'District A': 2, 'District B': 1, ... }
-        // console.log(districtCounts);
-        // console.log(Dlength);
         return districtCountsArray;
     }
 }

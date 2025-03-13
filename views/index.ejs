@@ -89,7 +89,7 @@
             const totalCount23 = parseInt(document.getElementById('totalChildren23').value) || 0;
             const totalCount24 = parseInt(document.getElementById('totalChildren24').value) || 0;
             const totalCount25 = parseInt(document.getElementById('totalChildren25').value) || 0;
-            const totalDistricts = JSON.parse(document.getElementById('totalChildrenByDistrict').value) || [];
+            // const totalDistricts = JSON.parse(document.getElementById('totalChildrenByDistrict').value) || [];
             // const totalDistricts = parseInt(document.getElementById('totalChildrenByDistrict').value) || [];
             
             const ctx = document.getElementById('childAgeChart');
@@ -127,20 +127,19 @@
                     }
                 }
             });
-        });
 
-        //Chart for Registration by District
-        document.addEventListener('DOMContentLoaded', function(){
-            const ctx = document.getElementById('regByDistChart');
-            new Chart(ctx, {
+            const districtsData = JSON.parse(document.getElementById('totalChildrenByDistrict').value || '[]');
+            const distCtx = document.getElementById('regByDistChart');
+            
+            new Chart(distCtx, {
                 type: 'bar',
                 data: {
-                    labels:  totalDistricts.map(d => d.district),
+                    labels: districtsData.map(d => d.district),
                     datasets: [{
                         label: 'Total Count',
-                        data: totalDistricts.map(d => d.count),
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
+                        data: districtsData.map(d => d.count),
+                        backgroundColor: 'rgba(125, 245, 169, 0.7)',
+                        borderColor: 'rgba(125, 245, 169, 1)',
                         borderWidth: 0
                     }]
                 },
@@ -165,8 +164,10 @@
                         }
                     }
                 }
-            })
-        })
-    </script>
+            });
+            });
+
+        //Chart for Registration by District
+        </script>
 </body>
 </html>
