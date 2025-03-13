@@ -86,4 +86,4 @@ class CDistricts {
     }
 }
 
-module.exports = {CScreening, ChildFollowUp, CDateByYear};
+module.exports = {CScreening, ChildFollowUp, CDateByYear, CDistricts};
