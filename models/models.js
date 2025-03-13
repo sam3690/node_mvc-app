@@ -25,10 +25,7 @@ class CDateByYear{
         const query = `SELECT cs08, cs1401, cs1402, cs1403 FROM [dbo].[CScreening] where colflag is null`;
         try{
         
-        const data = await executeQuery(query)
-        
-         
-                        
+        const data = await executeQuery(query)    
 
             data.forEach(row => {
                 // converting afghan Date of Asssment to Gregorian Format
@@ -82,7 +79,36 @@ class CDateByYear{
 class CDistricts {
     static async getData(){
         const query = "SELECT district FROM [dbo].[CScreening] where colflag is null";
-        return await executeQuery(query)
+        const data = await executeQuery(query)              
+        const Dlength = data.length
+        // Initialize an empty object to store the counts
+        const districtCounts = {};
+
+        // Iterate over the data array
+        data.forEach(entry => {
+        const district = entry.district;
+        
+        // If the district is already in the object, increment its count
+        if (districtCounts[district]) {
+            districtCounts[district]++;
+        } else {
+            // Otherwise, initialize the count for this district to 1
+            districtCounts[district] = 1;
+        }
+        });
+
+        const districtCountsArray = Object.keys(districtCounts).map(district => {
+            return {
+              district: district,
+              count: districtCounts[district]
+            };
+          });
+
+        // Now districtCounts will look something like this:
+        // { 'District A': 2, 'District B': 1, ... }
+        // console.log(districtCounts);
+        // console.log(Dlength);
+        return districtCountsArray;
     }
 }
 

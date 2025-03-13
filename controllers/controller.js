@@ -7,6 +7,9 @@ const controller = {
             const cFollowUp = await models.ChildFollowUp.getData();
             const screenings = await models.CScreening.getTop10();
             const CDateByY = await models.CDateByYear.getData();
+            const CDistricts = await models.CDistricts.getData();
+            console.log(CDistricts);
+            
             
             res.render('index', {
                 cFollowUp: cFollowUp,
@@ -15,6 +18,7 @@ const controller = {
                 ch24: CDateByY.childByYear2024, 
                 ch25: CDateByY.childByYear2025,
                 totalUnderFive: CDateByY.totalUnderFive,
+                CDistricts: CDistricts,
             }); // Pass data and type
         } catch (error) {
             res.status(500).send('Error fetching data');
