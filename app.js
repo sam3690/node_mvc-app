@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { connect } = require('./config/db');
-const screeningRoutes = require('./routes/route');
+const route = require('./routes/route');
 
 
 const app = express();
@@ -20,7 +20,23 @@ app.use(express.json());
 connect();
 
 // Routes
-app.use('/', screeningRoutes);
+app.use('/', route);
+
+//response time middleware
+// Route to measure response time
+app.get('/', (req, res) => {
+    console.log('Request received at /api/data'); // Debugging line
+    const start = Date.now(); // Start time
+
+    // Simulate some processing
+    const data = { message: 'Hello, world!' };
+
+    const end = Date.now(); // End time
+    const responseTime = end - start; // Calculate response time in milliseconds
+    console.log(`Response Time: ${responseTime} ms`);
+
+    res.json(data);
+});
 
 // Start the server
 app.listen(PORT, () => {

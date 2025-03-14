@@ -17,7 +17,9 @@
     "express-ejs-layouts": "^2.5.1",
     "jalaali-js": "^1.2.8",
     "moment-jalaali": "^0.10.4",
-    "mssql": "^11.0.1"
+    "morgan": "^1.10.0",
+    "mssql": "^11.0.1",
+    "wrk": "^1.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
