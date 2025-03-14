@@ -28,7 +28,7 @@ class CDateByYear{
         const data = await executeQuery(query)    
 
             data.forEach(row => {
-                // converting afghan Date of Asssment to Gregorian Format
+                // converting afghan Date of Assesment to Gregorian Format
                 const afghanDOA = moment(`${row.cs08}`,'jDD/jMM/jYYYY')
                 const gregorianDOA = afghanDOA.format('YYYY-MM-DD');
                 
@@ -73,14 +73,13 @@ class CDateByYear{
         }
     }
 }
-// CDateByYear.getData();
 
 
 class CDistricts {
     static async getData(){
         const query = "SELECT cs08, district FROM [dbo].[CScreening] where colflag is null";
         const data = await executeQuery(query)              
-        // const Dlength = data.length
+        
         // Initialize an empty object to store the counts
         const districtCounts = {};
 
