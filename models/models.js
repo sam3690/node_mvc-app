@@ -106,4 +106,40 @@ class CDistricts {
     }
 }
 
-module.exports = {CScreening, ChildFollowUp, CDateByYear, CDistricts};
+class totalSreenings {
+    static async getData() {
+        const query = "SELECT cs13 FROM [dbo].[CScreening] where cs13 IN (1,2)";
+        const data = await executeQuery(query)
+        // console.log(data);
+        
+
+       let maleCount = 0
+       let femaleCount = 0
+
+       data.recordset.forEach(row => {
+        if (row.cs13 ===1) {
+            maleCount++
+        } else if (row.cs13 ===2) {
+            femaleCount++   
+        }
+       })
+       console.log(maleCount);
+       console.log(femaleCount);
+       
+
+       const totalEntries = maleCount + femaleCount      
+
+       const malePercentage = totalEntries > 0 ? ((maleCount / totalEntries) * 100).toFixed(2) : 0;
+       const femalePercentage = totalEntries > 0 ? ((femaleCount / totalEntries) * 100).toFixed(2) : 0;
+       
+       return{
+        maleCount,
+        femaleCount,
+        totalEntries,
+        malePercentage,
+        femalePercentage
+       }
+    }
+}
+
+module.exports = {CScreening, ChildFollowUp, CDateByYear, CDistricts, totalSreenings};
