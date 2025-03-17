@@ -110,22 +110,26 @@ class totalSreenings {
     static async getData() {
         const query = "SELECT cs13 FROM [dbo].[CScreening] where cs13 IN (1,2)";
         const data = await executeQuery(query)
-        // console.log(data);
+        console.log(data);
+        
         
 
        let maleCount = 0
        let femaleCount = 0
 
-       data.recordset.forEach(row => {
-        if (row.cs13 ===1) {
-            maleCount++
-        } else if (row.cs13 ===2) {
-            femaleCount++   
-        }
-       })
-       console.log(maleCount);
-       console.log(femaleCount);
-       
+       if (data && typeof data === 'object') {
+        // Convert the array-like object to an array if needed
+        const records = Array.isArray(data) ? data : Object.values(data);
+        
+        records.forEach(row => {
+            if (row && row.cs13 === '1') {
+                maleCount++;
+            } else if (row && row.cs13 === '2') {
+                femaleCount++;   
+            }
+        });
+    }
+             
 
        const totalEntries = maleCount + femaleCount      
 

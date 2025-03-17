@@ -74,7 +74,14 @@
         <canvas id="regByDistChart"></canvas>
     </div>
     
-    
+    <h1>Total screening data of children</h1>
+    <div><%= screeningStats.totalEntries%></div>
+
+    <h2>Male</h2>
+    <div><%= screeningStats.malePercentage%>%</div>
+
+    <h2>Female</h2>
+    <div><%= screeningStats.femalePercentage%>%</div>
 
     <!-- Pass the data to JavaScript using a hidden input -->
     <input type="hidden" id="totalChildren23" value="<%= ch23 %>">

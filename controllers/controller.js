@@ -22,7 +22,8 @@ const controller = {
                 screeningStats: screeningStats    
             }); // Pass data and type
         } catch (error) {
-            res.status(500).send('Error fetching data', error);
+            console.error('Error fetching data:', error);
+            res.status(500).send('Error fetching data: ' + error.message);
         }
     },
 };
