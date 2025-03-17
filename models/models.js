@@ -110,10 +110,9 @@ class totalSreenings {
     static async getData() {
         const query = "SELECT cs13 FROM [dbo].[CScreening] where cs13 IN (1,2)";
         const data = await executeQuery(query)
-        console.log(data);
         
-        
-
+       
+       // Initialize counts for male and female
        let maleCount = 0
        let femaleCount = 0
 
@@ -121,6 +120,7 @@ class totalSreenings {
         // Convert the array-like object to an array if needed
         const records = Array.isArray(data) ? data : Object.values(data);
         
+        // Iterate over the records
         records.forEach(row => {
             if (row && row.cs13 === '1') {
                 maleCount++;
@@ -130,9 +130,10 @@ class totalSreenings {
         });
     }
              
-
+        // Calculate the total number of entries
        const totalEntries = maleCount + femaleCount      
 
+       // Calculate the percentages
        const malePercentage = totalEntries > 0 ? ((maleCount / totalEntries) * 100).toFixed(2) : 0;
        const femalePercentage = totalEntries > 0 ? ((femaleCount / totalEntries) * 100).toFixed(2) : 0;
        

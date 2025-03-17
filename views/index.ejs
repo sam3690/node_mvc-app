@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Dashboard</h1>
-
+    
     <!-- Screenings Table -->
     <h2>Child Facility Screenings</h2>
     <% if (screenings && screenings.length > 0) { %>
@@ -93,13 +93,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get the data from the hidden input
-            // const totalCount = parseInt(document.getElementById('totalChildrenData').value) || 0;
             const totalCount23 = parseInt(document.getElementById('totalChildren23').value) || 0;
             const totalCount24 = parseInt(document.getElementById('totalChildren24').value) || 0;
             const totalCount25 = parseInt(document.getElementById('totalChildren25').value) || 0;
-            // const totalDistricts = JSON.parse(document.getElementById('totalChildrenByDistrict').value) || [];
-            // const totalDistricts = parseInt(document.getElementById('totalChildrenByDistrict').value) || [];
+          
             
             const ctx = document.getElementById('childAgeChart');
             new Chart(ctx, {
@@ -178,5 +175,7 @@
 
         //Chart for Registration by District
         </script>
+    
+     
 </body>
 </html>
