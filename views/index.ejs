@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <title>Dashboard</title>
 </head>
 <body>
@@ -173,7 +174,148 @@
             });
             });
 
-        //Chart for Registration by District
+    // Connect to Socket.IO
+    const socket = io();
+    
+    // Store chart references for updating
+    let childAgeChart;
+    let regByDistChart;
+    
+    // Listen for updates from the server
+    socket.on('data-update', function(data) {
+        console.log('Received new data from server');
+        
+        // Update the children by year chart
+        if (data.childrenByYear) {
+            updateChildrenByYearChart(data.childrenByYear);
+        }
+        
+        // Update districts chart
+        if (data.districts) {
+            updateDistrictsChart(data.districts);
+        }
+        
+        // Update screening stats
+        if (data.screeningStats) {
+            updateScreeningStats(data.screeningStats);
+        }
+        
+        // Update tables
+        if (data.screenings) {
+            updateTableData('Child Facility Screenings', data.screenings);
+        }
+        
+        if (data.cFollowUp) {
+            updateTableData('Child Facility Follow-Up', data.cFollowUp);
+        }
+    });
+    
+    // Save chart references when initialized
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get your chart references after they're created
+        const charts = document.querySelectorAll('canvas');
+        for (let chart of charts) {
+            if (chart.id === 'childAgeChart') {
+                childAgeChart = Chart.getChart(chart);
+            } else if (chart.id === 'regByDistChart') {
+                regByDistChart = Chart.getChart(chart);
+            }
+        }
+    });
+    
+    // Function to update the children by year chart
+    function updateChildrenByYearChart(data) {
+        if (!childAgeChart) return;
+        
+        // Update total count display
+        const totalCountDisplay = document.getElementById('totalCountDisplay');
+        if (totalCountDisplay) {
+            totalCountDisplay.textContent = data.totalUnderFive;
+        }
+        
+        // Update chart data
+        childAgeChart.data.datasets[0].data = [
+            data.childByYear2023,
+            data.childByYear2024,
+            data.childByYear2025
+        ];
+        
+        childAgeChart.update();
+    }
+    
+    // Function to update the districts chart
+    function updateDistrictsChart(districts) {
+        if (!regByDistChart || !districts) return;
+        
+        regByDistChart.data.labels = districts.map(d => d.district);
+        regByDistChart.data.datasets[0].data = districts.map(d => d.count);
+        regByDistChart.update();
+    }
+    
+    // Function to update screening stats
+    function updateScreeningStats(stats) {
+        if (!stats) return;
+        
+        // Find elements by nearby headings
+        const elements = document.querySelectorAll('h1, h2');
+        elements.forEach(element => {
+            if (element.textContent.includes('Total screening data of children') && element.nextElementSibling) {
+                element.nextElementSibling.textContent = stats.totalEntries;
+            }
+            if (element.textContent.includes('Male') && element.nextElementSibling) {
+                element.nextElementSibling.textContent = stats.malePercentage + '%';
+            }
+            if (element.textContent.includes('Female') && element.nextElementSibling) {
+                element.nextElementSibling.textContent = stats.femalePercentage + '%';
+            }
+        });
+    }
+    
+    // Function to update table data
+    function updateTableData(tableTitle, data) {
+        if (!data || data.length === 0) return;
+        
+        // Find the heading with the given text
+        const headings = document.querySelectorAll('h2');
+        let targetHeading = null;
+        
+        for (let heading of headings) {
+            if (heading.textContent.includes(tableTitle)) {
+                targetHeading = heading;
+                break;
+            }
+        }
+        
+        if (!targetHeading) return;
+        
+        // Find the next table element
+        let table = targetHeading.nextElementSibling;
+        while (table && table.tagName !== 'TABLE') {
+            table = table.nextElementSibling;
+        }
+        
+        if (!table) return;
+        
+        // Get the table body
+        const tbody = table.querySelector('tbody');
+        if (!tbody) return;
+        
+        // Clear existing rows
+        tbody.innerHTML = '';
+        
+        // Add new rows
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            
+            for (const key in item) {
+                const cell = document.createElement('td');
+                cell.textContent = item[key];
+                row.appendChild(cell);
+            }
+            
+            tbody.appendChild(row);
+        });
+    }
         </script>
     
      

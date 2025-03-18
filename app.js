@@ -2,10 +2,17 @@ const express = require('express');
 const path = require('path');
 const { connect } = require('./config/db');
 const route = require('./routes/route');
-
+const http = require('http'); // Add this
+const socketIo = require('socket.io'); // Add this
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Create HTTP server (required for Socket.IO)
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -19,28 +26,31 @@ app.use(express.json());
 // Connect to the database
 connect();
 
+// Make io accessible throughout the application
+app.set('io', io);
+
 // Routes
 app.use('/', route);
 
-//response time middleware
-// Route to measure response time
-app.get('/', (req, res) => {
-    console.log('Request received at /api/data'); // Debugging line
-    const start = Date.now(); // Start time
-
-    // Simulate some processing
-    const data = { message: 'Hello, world!' };
-
-    const end = Date.now(); // End time
-    const responseTime = end - start; // Calculate response time in milliseconds
-    console.log(`Response Time: ${responseTime} ms`);
-
-    res.json(data);
+// Socket.IO connection handling
+io.on('connection', (socket) => {
+    console.log('A client connected');
+    
+    socket.on('disconnect', () => {
+        console.log('A client disconnected');
+    });
 });
 
-// Start the server
-app.listen(PORT, () => {
+// Add this with other requires
+const dataPoll = require('./dataPoll');
+
+// Update the server listen section
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    
+    // Start data polling after server starts
+    const pollInterval = dataPoll.startPolling(io, 10000); // Poll every 10 seconds
+    app.set('polling', pollInterval);
 });
 
 module.exports = app;
